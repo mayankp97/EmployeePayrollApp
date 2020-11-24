@@ -51,7 +51,7 @@ class PayrollModel {
         return this._notes;
     }
     set note(note) {
-        this._note = note;
+        this._notes = note;
     }
     get id() {
         return this._id;

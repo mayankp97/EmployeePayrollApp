@@ -7,7 +7,7 @@ salary.addEventListener('input', function () {
 const name = document.querySelector('#name');
 const nameError = document.querySelector('#name-error');
 name.addEventListener('input', function () {
-    let namRegex = new RegExp(/^[A-Z][a-z]{2,}$/);
+    let namRegex = new RegExp('^[A-Z][a-z]{2,}$');
     if (namRegex.test(name.value))
         nameError.textContent = "";
     else
@@ -32,7 +32,7 @@ function createEmployeePayroll()
     employeepayrollData.gender = getSelectedValues('[name=gender]').pop();
     employeepayrollData.department = getSelectedValues('[name=department]');
     employeepayrollData.salary = getInputValueById('#salary');
-    employeepayrollData.note = getInputValueById('#notes');
+    employeepayrollData.note = document.getElementById('notes').value;
     let date = getInputValueById('#year') + "-"+ getInputValueById('#month') + "/" + getInputValueById('#day');
     employeepayrollData.startDate = new Date(date);
     empPayroll.push(employeepayrollData)
