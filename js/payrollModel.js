@@ -43,6 +43,7 @@ class PayrollModel {
             this._startDate = startDate.toLocaleString(undefined, {
                 timeZone: 'Asia/Kolkata'
             });
+            
         else {
             throw "Invalid Start Date";
         }
