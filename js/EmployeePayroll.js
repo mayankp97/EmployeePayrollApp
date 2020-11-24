@@ -70,3 +70,22 @@ function getElementValueById(id){
     let value = document.getElementById(id).value
     return value;
 }
+
+function resetForm(){
+    setValue('#name','');
+    setValue('#salary','');
+    setValue('#notes','');
+    setValue('#day','1');
+    setValue('#month','January');
+    setValue('#year','2020');
+    unselectValues('[name=profle');
+    unselectValues('[name=gender');
+    unselectValues('[name=department');
+}
+
+function setValue(id,value){
+    document.querySelector(id).value = value;
+}
+function unselectValues(prop){
+    document.querySelectorAll(prop).forEach(item => item.checked=false);
+}
