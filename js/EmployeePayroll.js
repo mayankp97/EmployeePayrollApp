@@ -15,13 +15,25 @@ name.addEventListener('input', function () {
 });
 function save(){
     try{    
-        createEmployeePayroll();
+
+        updateLocalStorage(createEmployeePayroll());
     }
     catch(e)
     {
         alert(e);
         return;
     }
+}
+
+function updateLocalStorage(employeePayrollData){
+    let empList = JSON.parse(localStorage.getItem("empList"));
+
+    if(empList != undefined)
+        empList.push(employeePayrollData);
+    else
+        empList = [employeePayrollData];
+    alert(empList.toString());
+    localStorage.setItem("empList",JSON.stringify(empList));
 }
 let empPayroll = [];
 function createEmployeePayroll()
@@ -37,7 +49,8 @@ function createEmployeePayroll()
     employeepayrollData.startDate = new Date(date);
     empPayroll.push(employeepayrollData)
     alert("Your entry is successfully done");
-    alert(empPayroll);
+    //alert(empPayroll);
+    return employeepayrollData;
 }
 function getSelectedValues(attribute)
 {
