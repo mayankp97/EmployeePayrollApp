@@ -26,14 +26,14 @@ function save(){
 }
 
 function updateLocalStorage(employeePayrollData){
-    let empList = JSON.parse(localStorage.getItem("empList"));
+    let employeePayrollList = JSON.parse(localStorage.getItem("employeePayrollList"));
 
-    if(empList != undefined)
-        empList.push(employeePayrollData);
+    if(employeePayrollList != undefined)
+        employeePayrollList.push(employeePayrollData);
     else
-        empList = [employeePayrollData];
-    alert(empList.toString());
-    localStorage.setItem("empList",JSON.stringify(empList));
+        employeePayrollList = [employeePayrollData];
+    alert(employeePayrollList.toString());
+    localStorage.setItem("employeePayrollList",JSON.stringify(employeePayrollList));
 }
 let empPayroll = [];
 function createEmployeePayroll()
