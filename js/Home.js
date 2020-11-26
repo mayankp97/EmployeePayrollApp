@@ -61,3 +61,16 @@ const getDeptHtml = (deptList) => {
     }
     return deptHtml;
 }
+
+const remove = function(node){
+    let empPayrollData = employeePayrollList.find(empData => empData._id == node.id);
+    if (!empPayrollData) return;
+    const index = employeePayrollList
+        .map(empData => empData._id)
+        .indexOf(empPayrollData._id);
+    employeePayrollList.splice(index, 1);
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
+    document.querySelector('.emp-count').textContent = employeePayrollList.length;
+    alert("User deleted is : "+empPayrollData._name+" with id :"+empPayrollData._id);
+    createInnerHtml();
+}
