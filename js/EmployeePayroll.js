@@ -1,5 +1,6 @@
 let isUpdate = false;
 let employeePayrollObj = {};
+let updateBool = false;
 window.addEventListener('DOMContentLoaded', (event) => {
     const name = document.querySelector('#name');
     const textError = document.querySelector('#name-error');
@@ -35,12 +36,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
     checkForUpdate();
 });
-
-function save() {
+let site_properties = {
+    home_page: "../pages/Home.html",
+    employee_payroll_page: "../pages/EmployeePayroll.html"
+};
+function save(event) {
+    event.preventDefault();
+    event.stopPropagation();
     try {
-        let empPayrollData = createEmployeePayroll();
-        createAndUpdateStorage(empPayrollData);
-    } catch (e) {
+        let empPayrollData;
+        if (!isUpdate) {
+            empPayrollData = createEmployeePayroll();
+            createAndUpdateStorage(empPayrollData);
+        }
+        else {
+            empPayrollData = updateEmployeePayroll();
+            createAndUpdateStorage(empPayrollData);
+            updateBool=true;
+            console.log("here");
+        }
+        window.location = site_properties.home_page;
+
+    } 
+    catch (e) {
         alert(e);
         return;
     }
@@ -55,11 +73,27 @@ function createEmployeePayroll() {
     employeepayrollData.salary = getInputValueById('#salary');
     employeepayrollData.note = getInputValueById('#notes');
     let date = getInputValueById('#date');
-    console.log(date);
     employeepayrollData.startDate = new Date(date);
     alert("Your entry is successfully done");
+    employeepayrollData.toString()
     alert(employeepayrollData.toString());
     return employeepayrollData;
+}
+function updateEmployeePayroll() {
+    employeePayrollObj._name = getInputValueById('#name');
+    employeePayrollObj._profile = getSelectedValues('[name = profile]').pop();
+    employeePayrollObj._gender = getSelectedValues('[name=gender]').pop();
+    employeePayrollObj._department = getSelectedValues('[name=department]');
+    employeePayrollObj._salary = getInputValueById('#salary');
+    employeePayrollObj._notes = getInputValueById('#notes');
+    let date = getInputValueById('#date');
+   
+    employeePayrollObj._startDate = new Date(date);
+    employeePayrollObj._startDate = employeePayrollObj._startDate.toLocaleString(undefined,{
+        timeZone:'Asia/Kolkata'
+    }); 
+    alert("Your entry is successfully Updated");
+    return employeePayrollObj;
 }
 
 function getSelectedValues(attribute) {
@@ -77,20 +111,28 @@ let getInputValueById = id => document.querySelector(id).value;
 let getElementValueById = id => document.getElementById(id).value;
 
 function createAndUpdateStorage(employeepayrollData) {
-    let empPayrollId = JSON.parse(localStorage.getItem("EmployeePayrollIdIterator"));
     let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
-    if (empPayrollId == null) {
-        empPayrollId = 1;
+    if(!isUpdate){
+        let empPayrollId = JSON.parse(localStorage.getItem("EmployeePayrollIdIterator"));
+        if (empPayrollId == null) {
+            empPayrollId = 1;
+        }
+        if (employeePayrollList != undefined) {
+            employeePayrollList.push(employeepayrollData);
+        } else {
+            employeePayrollList = [employeepayrollData];
+        }
+
+        employeepayrollData['_id'] = empPayrollId;
+        empPayrollId += 1;
+        localStorage.setItem("EmployeePayrollIdIterator", empPayrollId);
     }
-    employeepayrollData['_id'] = empPayrollId;
-    if (employeePayrollList != undefined) {
+    else{
+        employeePayrollList = employeePayrollList.filter(emp => emp._id != employeepayrollData._id);
         employeePayrollList.push(employeepayrollData);
-    } else {
-        employeePayrollList = [employeepayrollData];
+        localStorage.removeItem('editEmp');
     }
-    empPayrollId += 1;
-    alert("Added Object to the local Storage" + employeePayrollList.toString());
-    localStorage.setItem("EmployeePayrollIdIterator", empPayrollId);
+
     localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
 const stringifyDate = (date) => {

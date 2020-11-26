@@ -40,8 +40,9 @@ class PayrollModel {
     }
     set startDate(startDate) {
         if (startDate <= new Date())
-            this._startDate = startDate;
-            
+            this._startDate = startDate.toLocaleString(undefined,{
+                timeZone:'Asia/Kolkata'
+            });            
         else {
             throw "Invalid Start Date";
         }
@@ -59,6 +60,6 @@ class PayrollModel {
         this._id = id;
     }
     toString() {
-        return "Id = " + this.id + "\nName = " + this.name + "\nSalary = " + this.salary + "\nGender = " + this.gender + " \nStartdate = " + this.startDate + "\nDepartments = " + this.department + "\nProfile = " + this.profile + "\nNote = " + this.note;
+        return "Name = " + this.name + "\nSalary = " + this.salary + "\nGender = " + this.gender + " \nStartdate = " + this.startDate + "\nDepartments = " + this.department + "\nProfile = " + this.profile + "\nNote = " + this.note;
     }
 }

@@ -2,7 +2,8 @@
 
 let employeePayrollList;
 window.addEventListener("DOMContentLoaded", (event) => {
-    employeePayrollList = getEmployeePayrollDataFromStorage();
+    employeePayrollList = getEmployeePayrollDataFromStorage().sort((e1,e2) => e1._id - e2._id);
+    let arr = [];
     document.querySelector(".emp-count").textContent = employeePayrollList.length;
     createInnerHtml();
     localStorage.removeItem('editEmp')
@@ -83,6 +84,5 @@ function update(node){
     let empData = employeePayrollList.find((emp) => emp._id == node.id);
     if (!empData) return;
     localStorage.setItem("editEmp", JSON.stringify(empData));
-    console.log(site_properties.employee_payroll_page);
     window.location.replace(site_properties.employee_payroll_page);
 };
