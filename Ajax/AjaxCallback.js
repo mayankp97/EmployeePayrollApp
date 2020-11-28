@@ -3,12 +3,12 @@ let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 function showTime()
 {
     const date = new Date();
-    return date.getHours() + "Hrs: " + date.getMinutes() + "Mins: " + date.getSeconds() + "Secs:";
+    return date.getHours() + "Hrs: " + date.getMinutes() + "Mins: " + date.getSeconds() + "Secs:" + date.getMilliseconds() + "Ms";
 }
 function makeAJAXCall(methodType, url, callback, async=true, data=null){
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
-        //console.log(methodType + " State Changed called at: " + showTime() + "Ready state: " + xhr.readyState + " Status: " + xhr.status)
+        console.log(methodType + " State Changed called at: " + showTime() + "Ready state: " + xhr.readyState + " Status: " + xhr.status)
         if(xhr.readyState === 4)
         {
             if(xhr.status === 200 || xhr.status === 201)
@@ -22,6 +22,7 @@ function makeAJAXCall(methodType, url, callback, async=true, data=null){
         }   
     } 
     xhr.open(methodType, url, async);
+    console.log( methodType+"Open called");
     if(data)
     {
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -38,26 +39,18 @@ function getUserDetails(data)
 makeAJAXCall("GET", getUrl, getUserDetails, true);
 console.log("Made GET AJAX call to the server at " + showTime());
 
-const deleteURL = "http://localhost:3000/employees/13";
+const deleteURL = "http://localhost:3000/employees/2";
 function userDeletedData(data)
 {
     console.log("User Deleted : "+ data);
 }
-makeAJAXCall("DELETE", deleteURL, userDeletedData, false);
+makeAJAXCall("DELETE", deleteURL, userDeletedData, true);
 console.log("Made DELETE AJAX call to the server at " + showTime());
 
 const postURL = "http://localhost:3000/employees";
 const empData = {
-    "_name": "Shruti",
-    "_gender": "Female",
-    "_department": [
-      "HR",
-      "Sales"
-    ],
-    "_salary": "350000",
-    "_startDate": "20/10/2020",
-    "_profile": "/assets/profile-images/Ellipse -2.png",
-    "_note": "Hello..."
+    "name":"Ms. LadyFinger",
+    "salary":"5000000"
   }
 function userAdded(data)
 {
