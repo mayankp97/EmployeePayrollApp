@@ -52,8 +52,6 @@ function save(event) {
         else {
             empPayrollData = updateEmployeePayroll();
             createAndUpdateStorage(empPayrollData);
-            updateBool=true;
-            console.log("here");
         }
         window.location = site_properties.home_page;
 
